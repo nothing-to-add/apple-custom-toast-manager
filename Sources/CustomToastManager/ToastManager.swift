@@ -16,7 +16,7 @@ class ToastManager: ObservableObject {
     
     @Published var isShowing = false
     @Published var message: LocalizedStringResource = ""
-    @Published var type: ToastView.ToastType = .info
+    @Published var type: ToastType = .info
     
     private var workItem: DispatchWorkItem?
     
@@ -27,7 +27,7 @@ class ToastManager: ObservableObject {
     ///   - message: The message to display
     ///   - type: The type of toast (success, error, warning, info)
     ///   - duration: How long to show the toast (default: 3 seconds)
-    func show(message: LocalizedStringResource, type: ToastView.ToastType, duration: TimeInterval = 3.0) {
+    func show(message: LocalizedStringResource, type: ToastType, duration: TimeInterval = 3.0) {
         // Cancel any existing work item
         workItem?.cancel()
         
