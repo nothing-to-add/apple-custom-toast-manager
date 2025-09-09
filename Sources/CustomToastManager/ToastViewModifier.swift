@@ -10,10 +10,12 @@
 
 import SwiftUI
 
-struct ToastViewModifier: ViewModifier {
+public struct ToastViewModifier: ViewModifier {
     @ObservedObject private var toastManager = ToastManager.shared
     
-    func body(content: Content) -> some View {
+    public init() {}
+    
+    public func body(content: Content) -> some View {
         content
             .overlay(
                 // Toast overlay
@@ -34,7 +36,7 @@ struct ToastViewModifier: ViewModifier {
     }
 }
 
-extension View {
+public extension View {
     /// Add toast notifications to any view
     func withToast() -> some View {
         modifier(ToastViewModifier())

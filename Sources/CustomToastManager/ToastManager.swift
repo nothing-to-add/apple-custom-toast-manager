@@ -11,12 +11,12 @@
 import SwiftUI
 
 @MainActor
-class ToastManager: ObservableObject {
-    static let shared = ToastManager()
+public class ToastManager: ObservableObject {
+    public static let shared = ToastManager()
     
-    @Published var isShowing = false
-    @Published var message: LocalizedStringResource = ""
-    @Published var type: ToastType = .info
+    @Published public var isShowing = false
+    @Published public var message: LocalizedStringResource = ""
+    @Published public var type: ToastType = .info
     
     private var workItem: DispatchWorkItem?
     
@@ -27,7 +27,7 @@ class ToastManager: ObservableObject {
     ///   - message: The message to display
     ///   - type: The type of toast (success, error, warning, info)
     ///   - duration: How long to show the toast (default: 3 seconds)
-    func show(message: LocalizedStringResource, type: ToastType, duration: TimeInterval = 3.0) {
+    public func show(message: LocalizedStringResource, type: ToastType, duration: TimeInterval = 3.0) {
         // Cancel any existing work item
         workItem?.cancel()
         
@@ -52,7 +52,7 @@ class ToastManager: ObservableObject {
     }
     
     /// Hide the toast immediately
-    func hide() {
+    public func hide() {
         workItem?.cancel()
         withAnimation(.easeInOut(duration: 0.3)) {
             isShowing = false
@@ -62,22 +62,22 @@ class ToastManager: ObservableObject {
     // MARK: - Convenience Methods
     
     /// Show an error toast
-    func showError(_ message: LocalizedStringResource, duration: TimeInterval = 3.0) {
+    public func showError(_ message: LocalizedStringResource, duration: TimeInterval = 3.0) {
         show(message: message, type: .error, duration: duration)
     }
     
     /// Show a success toast
-    func showSuccess(_ message: LocalizedStringResource, duration: TimeInterval = 3.0) {
+    public func showSuccess(_ message: LocalizedStringResource, duration: TimeInterval = 3.0) {
         show(message: message, type: .success, duration: duration)
     }
     
     /// Show a warning toast
-    func showWarning(_ message: LocalizedStringResource, duration: TimeInterval = 3.0) {
+    public func showWarning(_ message: LocalizedStringResource, duration: TimeInterval = 3.0) {
         show(message: message, type: .warning, duration: duration)
     }
     
     /// Show an info toast
-    func showInfo(_ message: LocalizedStringResource, duration: TimeInterval = 3.0) {
+    public func showInfo(_ message: LocalizedStringResource, duration: TimeInterval = 3.0) {
         show(message: message, type: .info, duration: duration)
     }
 }

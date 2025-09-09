@@ -10,12 +10,18 @@
 
 import SwiftUI
 
-struct ToastView: View {
+public struct ToastView: View {
     let message: LocalizedStringResource
     let type: ToastType
     @Binding var isShowing: Bool
     
-    var body: some View {
+    public init(message: LocalizedStringResource, type: ToastType, isShowing: Binding<Bool>) {
+        self.message = message
+        self.type = type
+        self._isShowing = isShowing
+    }
+    
+    public var body: some View {
         HStack(spacing: 12) {
             Image(systemName: type.icon)
                 .foregroundColor(type.color)

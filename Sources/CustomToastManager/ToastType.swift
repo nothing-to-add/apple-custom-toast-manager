@@ -10,13 +10,13 @@
 
 import SwiftUI
 
-enum ToastType {
+public enum ToastType {
     case success
     case error
     case warning
     case info
     
-    var color: Color {
+    public var color: Color {
         switch self {
         case .success:
             return .green
@@ -29,7 +29,7 @@ enum ToastType {
         }
     }
     
-    var icon: String {
+    public var icon: String {
         switch self {
         case .success:
             return "checkmark.circle.fill"
