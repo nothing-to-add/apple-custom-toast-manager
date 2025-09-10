@@ -5,7 +5,6 @@ import PackageDescription
 
 let package = Package(
     name: "apple-custom-toast-manager",
-    version: "1.0.0",
     platforms: [
         .iOS(.v16),
         .macOS(.v13),
