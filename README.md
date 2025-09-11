@@ -56,7 +56,9 @@ And add it to your target:
 ```swift
 .target(
     name: "YourTarget",
-    dependencies: ["CustomToastManager"]
+    dependencies: [
+        .product(name: "CustomToastManager", package: "apple-custom-toast-manager")
+    ]
 )
 ```
 
