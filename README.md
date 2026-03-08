@@ -12,7 +12,8 @@ A modern, customizable toast notification manager for Apple platforms built with
 
 ✨ **Cross-Platform** - Works on iOS 16+, macOS 13+, watchOS 9+, and visionOS 1+  
 🎨 **Customizable** - Four built-in toast types with distinct colors and icons  
-🔄 **Animated** - Smooth animations for showing and hiding toasts  
+🔄 **Animated** - Spring-driven slide-in and ease-in-out slide-out animations  
+🪟 **Always on Top** - Rendered in a dedicated `UIWindow` overlay, visible above sheets and modals  
 📱 **SwiftUI Native** - Built entirely with SwiftUI for modern app development  
 ⚡ **Easy Integration** - Simple view modifier for quick setup  
 🎯 **Singleton Pattern** - Global access through `ToastManager.shared`  
@@ -172,6 +173,16 @@ struct CustomContentView: View {
     }
 }
 ```
+
+### Animation & Window Overlay
+
+Toasts are displayed in a dedicated `UIWindow` with a window level above `.alert`, so they appear on top of sheets, modals, and other overlays. The presentation is fully animated:
+
+- **Appearance** — spring animation (`response: 0.4, dampingFraction: 0.75`) that slides the toast up from the bottom with a subtle bounce.
+- **Dismissal** — ease-in-out animation (0.3s) that slides the toast back down while fading out.
+- **Tap to dismiss** — tapping the toast triggers the same animated dismissal immediately.
+
+The window is removed from the hierarchy only after the exit animation completes, preventing any visual pop.
 
 ## Localization
 

@@ -16,24 +16,6 @@ public struct ToastViewModifier: ViewModifier {
     public init() {}
     
     public func body(content: Content) -> some View {
-//        content
-//            .overlay(
-//                // Toast overlay
-//                VStack {
-//                    Spacer()
-//                    
-//                    if toastManager.isShowing {
-//                        ToastView(
-//                            message: toastManager.message,
-//                            type: toastManager.type,
-//                            isShowing: $toastManager.isShowing
-//                        )
-//                        .padding(.bottom, 50) // Add some padding from bottom
-//                    }
-//                }
-//                .animation(.easeInOut(duration: 0.3), value: toastManager.isShowing)
-//            )
-        
         content
             .onChange(of: toastManager.isShowing) { _, isShowing in
                 if isShowing {
