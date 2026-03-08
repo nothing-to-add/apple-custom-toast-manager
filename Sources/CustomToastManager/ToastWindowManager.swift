@@ -11,6 +11,56 @@
 import UIKit
 import SwiftUI
 
+// MARK: - Animated wrapper
+
+private struct ToastContainerView: View {
+    let message: LocalizedStringResource
+    let type: ToastType
+    let duration: TimeInterval
+    let onDismiss: () -> Void
+
+    @State private var isVisible: Bool = false
+
+    var body: some View {
+        ZStack(alignment: .bottom) {
+            if isVisible {
+                ToastView(
+                    message: message,
+                    type: type,
+                    isShowing: Binding(
+                        get: { isVisible },
+                        set: { newValue in
+                            if !newValue { dismiss() }
+                        }
+                    )
+                )
+                .padding(.bottom, 50)
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+        .onAppear {
+            withAnimation(.spring(response: 0.4, dampingFraction: 0.75)) {
+                isVisible = true
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
+                dismiss()
+            }
+        }
+    }
+
+    private func dismiss() {
+        withAnimation(.easeInOut(duration: 0.3)) {
+            isVisible = false
+        }
+        // Allow the animation to finish before removing the window
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+            onDismiss()
+        }
+    }
+}
+
+// MARK: - Window manager
+
 @MainActor
 public final class ToastWindowManager {
     public static let shared = ToastWindowManager()
@@ -30,13 +80,15 @@ public final class ToastWindowManager {
         window.isUserInteractionEnabled = false
 
         let hostingController = UIHostingController(
-            rootView: ToastView(
+            rootView: ToastContainerView(
                 message: message,
                 type: type,
-                isShowing: .constant(true)
+                duration: duration,
+                onDismiss: { [weak self] in
+                    self?.toastWindow?.isHidden = true
+                    self?.toastWindow = nil
+                }
             )
-            .padding(.bottom, 50)
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
         )
         hostingController.view.backgroundColor = .clear
         window.rootViewController = hostingController
@@ -44,11 +96,5 @@ public final class ToastWindowManager {
         window.isHidden = false
 
         toastWindow = window
-
-        // Auto dismiss
-        DispatchQueue.main.asyncAfter(deadline: .now() + duration) { [self] in
-            toastWindow?.isHidden = true
-            toastWindow = nil
-        }
     }
 }
